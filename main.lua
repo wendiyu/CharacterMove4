@@ -24,8 +24,8 @@ physics.addBody( leftWall, "static", {
     bounce = 0.3 
     } )
 
-local theGround = display.newImageRect( "./assets/sprites/land.png", 1500, 150 )
-theGround.x = display.contentCenterX - 290
+local theGround = display.newImageRect( "./assets/sprites/land.png", 1750, 150 )
+theGround.x = display.contentCenterX - 190
 theGround.y = display.contentCenterY + 690
 theGround.id = "the ground"
 physics.addBody(theGround, "static", {
@@ -50,6 +50,7 @@ physics.addBody(LandSquare, "dynamic", {
 	friction = 0.3,
 	bounce = 0.2
 	})
+LandSquare.isFixedRotation = true
 
 -- Character move
 local SnowMen = display.newImageRect( "./assets/sprites/SnowMan.png", 250, 250 )
@@ -184,11 +185,21 @@ function checkCharacterPosition( event )
 
 end
 
+function checkLandSquarePosition( event )
+    -- check every frame to see if character has fallen
+    if LandSquare.y > display.contentHeight + 400 then
+       LandSquare.x = display.contentCenterX + 200
+       LandSquare.y = display.contentCenterY 
+    end
+
+end
+
 upArrow:addEventListener( "touch", upArrow )
 downArrow:addEventListener( "touch", downArrow )
 leftArrow:addEventListener( "touch", leftArrow )
 rightArrow:addEventListener( "touch", rightArrow )
 jumpButton:addEventListener( "touch", jumpButton )
 Runtime:addEventListener("enterFrame", checkCharacterPosition )
+Runtime:addEventListener("enterFrame", checkLandSquarePosition )
 SnowMen.collision = snowmenCollision
 SnowMen:addEventListener( "collision" )
